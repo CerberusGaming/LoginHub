@@ -17,6 +17,7 @@ class Config:
         var = var.upper()
         section = var.split('_')[0]
         option = "_".join(var.split('_')[1:])
+        default_value = str(default_value)
         if option == "":
             raise AttributeError("Invalid config var")
         else:
