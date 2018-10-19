@@ -5,11 +5,14 @@ from flask_session import Session
 from LoginHub.App import AppConfig, Flask
 from LoginHub.Joomla import Joomla
 
+_redis_pass = AppConfig.get('REDIS_PASSWORD', None)
+if _redis_pass == '':
+    _redis_pass = None
 flask_redis = redis.Redis(
     host=AppConfig.get('REDIS_HOST', '127.0.0.1'),
     port=AppConfig.getint('REDIS_PORT', 6379),
     db=AppConfig.getint('REDIS_DB', 0),
-    password=AppConfig.get('REDIS_PASSWORD', None)
+    password=_redis_pass
 )
 
 Flask.config['SECRET_KEY'] = AppConfig.get('APP_SECRET', 'abcd12345')
@@ -63,7 +66,7 @@ def main():
         return redirect(AppConfig.get('APP_LOGOUT', '/log-out'))
     jsession = session.get('jsession')
     client_id = jsession['Joomla/Registry/Registry']['*data']['__default']['user']['id']
-    discord_url = AppConfig.get('URL_DISCORD', '/')
+    discord_url = AppConfig.get('URL_DISCORD', '/').replace('%', '%%')
 
     return render_template('main.html', client_id=client_id, discord_url=discord_url)
 
