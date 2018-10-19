@@ -66,7 +66,7 @@ def main():
         return redirect(AppConfig.get('APP_LOGOUT', '/log-out'))
     jsession = session.get('jsession')
     client_id = jsession['Joomla/Registry/Registry']['*data']['__default']['user']['id']
-    discord_url = AppConfig.get('URL_DISCORD', '/').replace('%', '%%')
+    discord_url = AppConfig.get('URL_DISCORD', '/')
 
     return render_template('main.html', client_id=client_id, discord_url=discord_url)
 
