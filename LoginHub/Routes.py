@@ -1,4 +1,5 @@
 import redis
+import urllib.parse
 from flask import redirect, request, session, make_response, render_template
 from flask_session import Session
 
@@ -39,7 +40,7 @@ def index():
             session['jsession'] = sessions.data
             return redirect('/validate')
     else:
-        return redirect(AppConfig.get('APP_HOMEPAGE', '/404'))
+        return redirect(AppConfig.get('URL_HOMEPAGE', '/404'))
 
 
 @Flask.route("/validate")
@@ -63,15 +64,21 @@ def validate():
 @Flask.route("/main")
 def main():
     if 'jsession' not in session.keys():
-        return redirect(AppConfig.get('APP_LOGOUT', '/log-out'))
+        return redirect(AppConfig.get('URL_LOGOUT', '/log-out'))
     jsession = session.get('jsession')
-    client_id = jsession['Joomla/Registry/Registry']['*data']['__default']['user']['id']
-    discord_url = AppConfig.get('URL_DISCORD', '/')
+    session['j_client_id'] = jsession['Joomla/Registry/Registry']['*data']['__default']['user']['id']
+    discord_url = "https://discordapp.com/api/oauth2/authorize"
+    discord_url += "?client_id=" + AppConfig.get('DISCORD_APPCODE', '00000000')
+    discord_url += "&redirect_uri=" + urllib.parse.quote_plus(AppConfig.get('DISCORD_REDIRECT', '/'))
+    discord_url += "&response_type=code&scope=identify%20connections%20guilds%20email"
 
-    return render_template('main.html', client_id=client_id, discord_url=discord_url)
+    return render_template('main.html', client_id=session['j_client_id'], discord_url=discord_url)
 
 
 @Flask.route('/discord/token')
 def discord_token():
-    print(request.args)
-    return 'wewt'
+    if 'code' in request.args.keys():
+        code = request.args.get('code')
+        print(code)
+
+    return redirect('/main')
