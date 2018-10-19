@@ -15,8 +15,8 @@ ENV APP_HOMEPAGE '/home'
 ENV URL_DISCORD '/'
 
 WORKDIR /usr/src/app
-COPY LoginHub ./
-COPY Config ./
+COPY LoginHub ./LoginHub
+COPY Config ./Config
 COPY requirements.txt ./
 COPY app.py ./
 
