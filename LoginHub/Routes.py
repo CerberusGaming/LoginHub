@@ -1,4 +1,5 @@
 import redis
+import requests
 import urllib.parse
 from flask import redirect, request, session, make_response, render_template
 from flask_session import Session
@@ -78,7 +79,25 @@ def main():
 @Flask.route('/discord/token')
 def discord_token():
     if 'code' in request.args.keys():
-        code = request.args.get('code')
-        print(code)
+        token_code = request.args.get('code')
+        token_endpoint = "https://discordapp.com/api/v6/oauth2/token"
+        token_id = AppConfig.get('DISCORD_APPCODE', '00000000')
+        token_secret = AppConfig.get('DISCORD_APPSECRET', '00000000')
+        token_redirect = AppConfig.get('DISCORD_REDIRECT', '00000000')
+        token_params = {
+            'client_id': token_id,
+            'client_secret': token_secret,
+            'code': token_code,
+            'redirect_uri': token_redirect,
+            'scope': 'identify connections guilds email',
+            'grant_type': 'authorization_code'
+        }
+        token_headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        token = requests.post(token_endpoint, data=token_params, headers=token_headers)
+        print(token.json())
 
+    print(request.json)
+    print(request.args)
+    print(request.headers)
+    print(request.data)
     return redirect('/main')
