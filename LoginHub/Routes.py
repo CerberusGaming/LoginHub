@@ -95,9 +95,4 @@ def discord_token():
         token_headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         token = requests.post(token_endpoint, data=token_params, headers=token_headers)
         print(token.json())
-
-    print(request.json)
-    print(request.args)
-    print(request.headers)
-    print(request.data)
     return redirect('/main')
