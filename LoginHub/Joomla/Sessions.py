@@ -10,7 +10,8 @@ class JoomlaSessions:
             db=db,
             password=password,
             decode_responses=True,
-            retry_on_timeout=True
+            retry_on_timeout=True,
+            max_connections=1
         )
         self.__session_header__ = 'PHPREDIS_SESSION'
 
@@ -18,5 +19,8 @@ class JoomlaSessions:
         return self.__session_header__ + ":" + session_id
 
     def get_session(self, session_id):
-        sessions = self.__redis__.get(self._get_session_key(session_id))
-        return JoomlaSession(sessions, session_id)
+        session = self.__redis__.get(self._get_session_key(session_id))
+        if session is None:
+            return None
+        else:
+            return JoomlaSession(session, session_id)
