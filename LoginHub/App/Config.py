@@ -8,7 +8,7 @@ class Config:
             self.__defaults_path = os.path.normpath(os.getcwd() + '/Config/defaults.ini')
         else:
             self.__defaults_path = os.path.normpath(path)
-        self.__config = configparser.ConfigParser()
+        self.__config = configparser.RawConfigParser()
         if not os.path.isfile(self.__defaults_path):
             open(self.__defaults_path, 'a').close()
         self.__config.read(self.__defaults_path)
