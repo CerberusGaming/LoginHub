@@ -74,4 +74,4 @@ def main():
 @Flask.route('/discord/token')
 def discord_token():
     print(request.args)
-    pass
+    return 'wewt'
