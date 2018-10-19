@@ -17,6 +17,8 @@ ENV URL_DISCORD '/'
 WORKDIR /usr/src/app
 COPY LoginHub ./LoginHub
 COPY Config ./Config
+COPY static ./static
+COPY templates ./templates
 COPY requirements.txt ./
 COPY app.py ./
 
