@@ -5,3 +5,4 @@ flask-session
 itsdangerous==0.24
 redis
 requests
+sqlalchemy

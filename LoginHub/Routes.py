@@ -24,6 +24,8 @@ Flask.config['SESSION_REDIS'] = flask_redis
 
 Session(Flask)
 
+Flask.add_url_rule('/favicon.ico', str(AppConfig.get('URL_HOMEPAGE', '')).rstrip('/') + "/favicon.ico")
+
 
 @Flask.route('/')
 def index():
@@ -41,7 +43,7 @@ def index():
             session['jsession'] = sessions.data
             return redirect('/validate')
     else:
-        return redirect(AppConfig.get('URL_HOMEPAGE', '/404'))
+        return redirect(AppConfig.get('URL_HOMEPAGE', '/'))
 
 
 @Flask.route("/validate")
@@ -53,7 +55,7 @@ def validate():
         client_ip = request.remote_addr
     js_ip = jsession['Joomla/Registry/Registry']['*data']['__default']['session']['client']['forwarded']
     if js_ip != client_ip:
-        response = make_response(redirect(AppConfig.get('APP_LOGOUT', '/log-out')))
+        response = make_response(redirect(AppConfig.get('APP_LOGOUT', '/')))
         for k, v in request.cookies.items():
             response.set_cookie(k, '', expires=0)
         session.clear()
