@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.8" group="system" method="upgrade">
+	<name>PLG_LOGINHUB</name>
+	<creationDate>10/22/2018</creationDate>
+	<author>DACRepair</author>
+	<authorEmail>DACRepair@gmail.com</authorEmail>
+	<authorUrl>https://www.cerberus-gaming.com</authorUrl>
+	<copyright>A copyright</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>1.0</version>
+	<description>PLG_LOGINHUB_XML_DESCRIPTION</description>
+
+	<!-- Scripts to run on installation -->
+	<scriptfile></scriptfile>
+
+	<!-- Language files -->
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_system_plg_loginhub.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_system_plg_loginhub.sys.ini</language>
+	</languages>
+
+	<!-- Plugin files -->
+	<files>
+		<filename plugin="plg_loginhub">plg_loginhub.php</filename>
+		<folder>language</folder>
+	</files>
+
+	<!-- Config parameter -->
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="sample"
+					type="text"
+					default="42"
+					label="PLG_LOGINHUB_SAMPLE_LABEL"
+					description="PLG_LOGINHUB_SAMPLE_DESCRIPTION"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+
+	<!-- Update servers -->
+	<updateservers>
+		<server type="extension" priority="1" name="plg_loginhub">https://www.example.com/plg_plg_loginhub.xml</server>
+	</updateservers>
+</extension>
